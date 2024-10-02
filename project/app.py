@@ -36,7 +36,7 @@ db = SQLAlchemy(app)
 
 from project import models
 
-from projects.models import Post
+from project.models import Post
 
 with app.app_context():
     db.create_all()
