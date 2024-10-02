@@ -3,3 +3,4 @@ Flask
 virtualenv
 Flask-SQLAlchemy
 gunicorn
+psycopg2
