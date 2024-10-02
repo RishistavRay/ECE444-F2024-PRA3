@@ -36,6 +36,10 @@ db = SQLAlchemy(app)
 
 from project import models
 
+from projects.models import Post
+
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def index():
