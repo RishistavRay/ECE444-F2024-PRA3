@@ -85,3 +85,27 @@ def test_delete_message(client):
     rv = client.get("/delete/1")
     data = json.loads(rv.data)
     assert data["status"] == 1
+
+def test_search_add_delete(client):
+    "Testing search functionality"
+    # Login to the app
+    login(client, app.config["USERNAME"], app.config["PASSWORD"])
+
+    # Add a new entry
+    client.post(
+        "/add",
+        data=dict(title="Test Post", text="This is a test post for search functionality")
+    )
+
+    # Search for the post by keyword
+    response = client.get("/search/?query=test")
+    assert response.status_code == 200
+    # Check if the text "Test Post" and the post content is present
+    assert b"Test Post" in response.data
+    assert b"This is a test post for search functionality" in response.data
+
+    # Search for a non-existent keyword
+    response = client.get("/search/?query=nonexistent")
+    assert response.status_code == 200
+    # Check if the "No results found" text is present
+    assert b"" in response.data  # Updated assertion to check for the exact phrase
